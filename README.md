@@ -9,6 +9,5 @@
 * HTML5 with BootStrap 5 -> Web
 * Javascript -> Web
 * Axios -> HTTP통신
-# Code 규칙
-* Python -> flake8
+## Code 규칙
 * Javascript -> eslint airbnb style
