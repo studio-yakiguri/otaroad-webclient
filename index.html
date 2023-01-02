@@ -1,25 +1,74 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Subculture-Map</title>
-    <!-- 부트스트랩 css-->
-    <link href="css/bootstrap.css" rel="stylesheet">
-  </head>
-  <body>
-    <header>
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">
-                <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-                Bootstrap
-              </a>
-            </div>
-          </nav>
-    </header>
-    <!--  부트스트랩 js 사용 -->
-    <script type="text/javascript" src="/js/bootstrap.js">
-    </script>
-  </body>
+<!-- 부트스트랩 css-->
+<link href="css/bootstrap.css" rel="stylesheet">
+<!-- bootstrap js -->
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<!-- 카카오맵 js -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54742a4e677242078bb4fcb2fba0fbaf"></script>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @font-face {
+      font-family: 'neodgm';
+      src: url('../assets/fonts/neodgm.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    h1 {
+      font-family: 'neodgm';
+      font-size: 3em;
+    }
+
+    #map {
+      width: 100%;
+      height: 30em;
+    }
+  </style>
+  <title>Subculture-Map</title>
+</head>
+
+<body>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <h1> Subculture<br>Map </h1>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-6 col-md-4">커뮤니티</div>
+      <div class="col-6 col-md-4">행사맵</div>
+      <div class="col-6 col-md-4">로그인</div>
+    </div>
+    <div class="p-2"></div>
+    <div class="row">
+      <div class="col-8">
+        <div id="map"></div>
+      </div>
+      <div class="col-3" style="background-color: aquamarine;">
+        위치리스트 영역
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+      mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+      };
+
+    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+  </script>
+</body>
+
 </html>
