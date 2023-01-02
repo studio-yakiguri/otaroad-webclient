@@ -1,4 +1,5 @@
 <!doctype html>
+<html lang="ko">
 <!-- 부트스트랩 css-->
 <link href="css/bootstrap.css" rel="stylesheet">
 <!-- bootstrap js -->
@@ -34,14 +35,18 @@
   <div class="container text-center">
     <div class="row">
       <div class="col">
-        <h1> Subculture<br>Map </h1>
+        <h1>Subculture Map</h1>
       </div>
     </div>
-  
+
+    <!-- navibar -->
     <div class="row">
       <div class="col-6 col-md-4">커뮤니티</div>
       <div class="col-6 col-md-4">행사맵</div>
-      <div class="col-6 col-md-4">로그인</div>
+      <div class="col-6 col-md-4">
+        <button type="button" class="btn btn-link" style="text-decoration: none" href="loginUrl" data-bs-toggle="modal"
+          data-bs-target="#loginModal">로그인</a>
+      </div>
     </div>
     <div class="p-2"></div>
     <div class="row">
@@ -54,6 +59,65 @@
     </div>
   </div>
 
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">로그인</h1>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3">
+            <div class="mb-3">
+              <label for="inputID" class="form-label">아이디</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="inputPW" class="form-label">Password</label>
+              <input type="password" class="form-control" id="inputPW">
+            </div>
+            <button type="submit" class="btn btn-primary">로그인</button>
+            <button type="button" class="btn btn-link" style="text-decoration: none" href="applyUrl"
+              data-bs-toggle="modal" data-bs-target="#applyModal">회원가입</a>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apply Modal -->
+  <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applymodalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원가입</h1>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3">
+            <div class="col-md-6">
+              <label for="inputID" class="form-label">아이디</label>
+              <input type="text" class="form-control" id="inputID">
+            </div>
+            <div class="col-md-6">
+              <label for="inputPW" class="form-label">비밀번호</label>
+              <input type="password" class="form-control" id="inputPW">
+            </div>
+            <div class="col">
+              <label for="inputEmail" class="form-label">이메일</label>
+              <input type="email" class="form-control" id="inputEmail">
+            </div>
+            <button type="submit" class="btn btn-primary">회원가입</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -64,7 +128,7 @@
 
     // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
     var map = new kakao.maps.Map(mapContainer, mapOption);
-    
+
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
     var zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
