@@ -42,7 +42,7 @@
     </div>
   </div>
 
-    <!-- navibar -->
+  <!-- navibar -->
   <div class="container text-center">
     <div class="row">
       <div class="col-6 col-md-4">
@@ -66,7 +66,7 @@
         <div id="map"></div>
       </div>
       <div class="col-sm" style="background-color: aquamarine;">
-        위치리스트 영역
+        <ul id="shop-list"></ul>
       </div>
     </div>
   </div>
@@ -144,22 +144,7 @@
   </footer>
   <script>
 
-    // 매장 전체 리스트 요청
-    const ip = 'http://127.0.0.1:8000/v1/shop/'
-
-    axios.get(ip)
-    .then(function (response) {
-      // 성공 핸들링
-      console.log(response);
-    })
-    .catch(function (error) {
-      // 에러 핸들링
-      console.log(error);
-    })
-    .then(function () {
-      // 항상 실행되는 영역
-    });
-
+    // 카카오맵 로딩
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
       mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -172,6 +157,31 @@
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
     var zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 마커를 표
+
+    // 매장 전체 리스트 요청
+    const ip = 'http://127.0.0.1:8000/v1/shop/';
+    let shopList;
+    axios.get(ip)
+      .then(function (response) {
+        // 성공 핸들링
+        shopList = response.data;
+        shopList.map(data => {
+          const shopName = data.name;
+          const shopId = data.id;
+          const li = document.createElement("li");
+          li.setAttribute('id', shopId)
+          const textNode = document.createTextNode(shopName);
+          li.appendChild(textNode)
+          document.getElementById('shop-list').appendChild(li);
+        })
+      })
+      .catch(function (error) {
+        // 에러 핸들링
+        alert(error);
+      })
+
   </script>
 </body>
 
