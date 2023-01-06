@@ -6,6 +6,8 @@
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 <!-- 카카오맵 js -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54742a4e677242078bb4fcb2fba0fbaf"></script>
+<!-- axios js -->
+<script type="text/javascript" src="/js/axios.min.js"></script>
 
 <head>
   <meta charset="utf-8">
@@ -38,8 +40,10 @@
         <h1>Subculture Map</h1>
       </div>
     </div>
+  </div>
 
     <!-- navibar -->
+  <div class="container text-center">
     <div class="row">
       <div class="col-6 col-md-4">
         <a href="" style="text-decoration: none">커뮤니티</a>
@@ -52,12 +56,16 @@
           data-bs-target="#loginModal">로그인</a>
       </div>
     </div>
-    <div class="p-2"></div>
-    <div class="row">
-      <div class="col-8">
+  </div>
+  <div class="p-2"></div>
+
+  <!-- MapSide -->
+  <div class="container-fluid text-center">
+    <div class="row" style="background-color: blanchedalmond;">
+      <div class="col-sm-9 text-white">
         <div id="map"></div>
       </div>
-      <div class="col-3" style="background-color: aquamarine;">
+      <div class="col-sm" style="background-color: aquamarine;">
         위치리스트 영역
       </div>
     </div>
@@ -135,6 +143,23 @@
     </div>
   </footer>
   <script>
+
+    // 매장 전체 리스트 요청
+    const ip = 'http://127.0.0.1:8000/v1/shop/'
+
+    axios.get(ip)
+    .then(function (response) {
+      // 성공 핸들링
+      console.log(response);
+    })
+    .catch(function (error) {
+      // 에러 핸들링
+      console.log(error);
+    })
+    .then(function () {
+      // 항상 실행되는 영역
+    });
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
       mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
