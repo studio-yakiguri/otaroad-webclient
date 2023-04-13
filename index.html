@@ -25,6 +25,7 @@
     #shop-list {
       background-color: white;
       height: 100%;
+      overflow-y: auto;
     }
 
     .info-window {
@@ -78,7 +79,7 @@
     <div class="row">
       <div class="col-sm-3">
         <!-- ShopListSide -->
-        <ul id="shop-list" class="list-group" data-bs-theme="light">
+        <ul id="shop-header" class="list-group" data-bs-theme="light">
           <li class="list-group-item active" aria-current="true">
             <form id="search">
               <div class="form" data-bs-theme="light">
@@ -95,7 +96,8 @@
               </div>
             </form>
           </li>
-          <li id="result-counter-text" class="list-group-item fw-bold">
+          <ul id="shop-list" class="list-group list-group-flush"></ul>
+          <li id="result-counter-text" class="list-group-item fw-bold text-center">
             검색결과 0곳
           </li>
         </ul>
