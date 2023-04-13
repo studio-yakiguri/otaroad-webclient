@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     @font-face {
       font-family: 'neodgm';
@@ -22,10 +22,29 @@
       height: 45em;
     }
 
+    #shop-header {
+      height: 100%;
+    }
+
     #shop-list {
       background-color: white;
       height: 100%;
       overflow-y: auto;
+    }
+
+    @media (max-width: 576px) {
+      #nav-title {
+        font-family: 'neodgm';
+        font-size: 4em;
+      }
+      #shop-list {
+        max-height: 10em;
+      }
+      #map {
+        margin-top: 3%;
+        width: auto;
+        height: 25em;
+      }
     }
 
     .info-window {
