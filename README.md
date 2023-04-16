@@ -8,7 +8,7 @@
 ## Tech Stack
 * HTML5 with BootStrap 5 -> Web
 * Javascript -> html 오브젝트 이벤트 처리 및 http 통신
-* Axios -> HTTP통신
+* Fetch -> HTTP통신
 ## Code 규칙
 * Javascript -> https://github.com/tipjs/javascript-style-guide (eslint airbnb style)
 * HTML/CSS -> https://google.github.io/styleguide/htmlcssguide.html (Google Style Guide)
