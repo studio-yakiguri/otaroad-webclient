@@ -37,9 +37,11 @@
         font-family: 'neodgm';
         font-size: 4em;
       }
+
       #shop-list {
         max-height: 10em;
       }
+
       #map {
         margin-top: 3%;
         width: auto;
@@ -74,7 +76,8 @@
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <!-- navibar -->
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between px-3 py-2 mb-4 text-center">
+  <header
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between px-3 py-2 mb-4 text-center">
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
       <li>
         <a href="https://discord.gg/BpXGUx89Nj" class="nav-link px-2" target="_blank">디스코드 채널</a>
@@ -100,11 +103,12 @@
         <!-- ShopListSide -->
         <ul id="shop-header" class="list-group" data-bs-theme="light">
           <li class="list-group-item active" aria-current="true">
-            <form id="search">
+            <form id="search" onsubmit="return false;">
               <div class="form" data-bs-theme="light">
                 <div class="input-group mb-3">
-                  <input type="search" class="form-control" id="search-input" placeholder="위치, 매장명, 주소 검색">
-                  <button class="btn btn-warning" id="search-button">검색</button>
+                  <input type="text" class="form-control" id="search-input" name="keyword"
+                    placeholder="매장명 검색 (없으면 전체)">
+                  <button class="btn btn-warning" id="search-button" onclick="request()">검색</button>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" disabled>
@@ -131,11 +135,10 @@
   <div class="container-fluid">
     <footer class="py-3 my-4">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">메인페이지</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">기능</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">정보</a></li>
       </ul>
       <p class="text-center text-muted">Twitter @tak_0_dachi</p>
     </footer>
@@ -208,10 +211,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <div style="flex-direction:column;">
-            <h1 class="modal-title fs-2" id="shopModalLabel">
+            <h1 class="modal-title fs-2 fw-bold" id="shopModalLabel">
               (가게 네임)
             </h1>
-            <a id="address" style="text-decoration: none" target='_blank'>가게주소</a>
+            <a id="address" class="fw-bold" style="text-decoration: none;" target='_blank'>가게주소</a>
           </div>
         </div>
         <div class="modal-body container">
@@ -220,10 +223,11 @@
               <h3 class="fs-5">영업시간</h3>
               <p id="worktime">(영업시간)</p>
               <hr>
-              <h3 class="fs-5">연락처</h3>
+              <h3 class="fs-5">정보</h3>
+              <a id="homepage" target="_blank">(홈페이지)</a>
               <p id="contact">(연락처)</p>
               <hr>
-              <h3 class="fs-5">가게정보</h3>
+              <h3 class="fs-5">내용</h3>
               <p id="content">(가게정보)</p>
               <p id="shoptype">(가게종류)</p>
             </div>
@@ -245,8 +249,86 @@
     </div>
   </div>
 
-  <!-- 데이터 처리를 위한 변수 세팅 -->
+  <!-- 데이터 처리를 위한 세팅 -->
   <script>
+
+    // SHOP 데이터 로드 함수
+    function shopDataLoad(shopdata, latlng) {
+
+      // 샵 데이터 가져오기 
+      const shopData = shopdata;
+
+      // Modal 열기
+      const shopModal = new bootstrap.Modal('#shopModal');
+      shopModal.show();
+
+      // 트위터 로딩 엘리먼트 선언
+      const twitterLoadingElement = document.getElementById("twitter-loading");
+      twitterLoadingElement.style.display = "block";
+
+      // 데이터를 넣을 element 객체 가져오기
+      const modalText = document.querySelector('#modal-text');
+      const modalLabel = document.querySelector('#shopModalLabel');
+      const addressText = document.querySelector('#address');
+      const contactText = document.querySelector('#contact');
+      const homePageText = document.querySelector('#homepage');
+      const workTimeText = document.querySelector('#worktime');
+      const contentText = document.querySelector('#content');
+      const shopTypeText = document.querySelector('#shoptype');
+
+      // 데이터 변경
+      modalLabel.innerText = shopData.name;
+      addressText.innerText = shopData.address;
+      homePageText.innerText = shopData.homePage;
+      contactText.innerText = shopData.contact;
+      workTimeText.innerText = shopData.workTime;
+      contentText.innerText = shopData.content;
+
+      // 홈페이지 데이터 모달에 추가
+      if (shopData.homePage === null) {
+        homePageText.setAttribute('style', 'display: block;');
+      } else {
+        homePageText.setAttribute('href', shopData.homePage);
+      }
+
+      // 카카오 주소 링크 설정
+      const addressLink = 'https://map.kakao.com/link/map/' + shopData.name + ',' + latlng.Ma + ',' + latlng.La;
+      addressText.setAttribute('href', addressLink);
+
+      // 데이터 변경 -> 샵 종류 데이터 처리
+      let shoptype = '';
+      shopData.shopType.map(type => {
+        shoptype += '#' + shopTypeMap.get(type) + ' ';
+      })
+      shopTypeText.innerText = shoptype;
+
+      // Twitter 타임라인 만들기
+      const twitterId = shopData.twitter.slice(20);
+      twttr.widgets.createTimeline(
+        {
+          sourceType: "profile",
+          screenName: twitterId,
+        },
+        document.getElementById("twitter"),
+        {
+          height: 500,
+          tweetLimit: 5
+        }
+      ).then(
+        function () {
+          twitterLoadingElement.style.display = "none";
+        }
+      );
+
+      // Modal이 닫혔을 경우에 대한 처리
+      const shopModalElement = document.getElementById('shopModal')
+      shopModalElement.addEventListener('hide.bs.modal', () => {
+        const twitterElement = document.querySelector('#twitter');
+        twitterElement.innerHTML = "";
+      });
+    }
+
+    // 매장 종류 별 데이터 설정
     const shopTypeMap = new Map([
       [1, '카페'],
       [2, '서점'],
@@ -261,54 +343,76 @@
   <!-- kakao Map Setting -->
   <script>
     // 카카오맵 로딩
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    let mapContainer = document.getElementById('map'), // 지도를 표시할 div 
       mapOption = {
         center: new kakao.maps.LatLng(35.7, 127), // 지도의 중심좌표
         level: 13 // 지도의 확대 레벨
       };
 
     // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-    var map = new kakao.maps.Map(mapContainer, mapOption),
-      customOverlay = new kakao.maps.CustomOverlay({}),
+    let map = new kakao.maps.Map(mapContainer, mapOption),
       infowindow = new kakao.maps.InfoWindow({ removable: true });; //지도 생성 및 객체 리턴
 
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-    var zoomControl = new kakao.maps.ZoomControl();
+    let zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 마커정보가 담긴 LIST
+    let markerList = [];
+
+    // 지도 위에 표시되고 있는 마커를 모두 제거합니다
+    function removeMarker() {
+      for (var i = 0; i < markerList.length; i++) {
+        markerList[i].setMap(null);
+      }
+      markerList = [];
+    }
+
+    // 해당하는 위치로 지도 이동하는 함수
+    function panTo(x, y) {
+      // 이동할 위도 경도 위치를 생성합니다 
+      let moveLatLon = new kakao.maps.LatLng(x, y);
+
+      // 맵 확대
+      map.setLevel(1);
+
+      // 지도 중심을 부드럽게 이동시킵니다
+      // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+      map.panTo(moveLatLon);
+    }
   </script>
 
   <!-- kakao Map Marker Setting -->
   <script>
     // 카카오 마커 세팅 함수
     function kakaoMapMarkerSetting() {
-
-      // Shop검색결과 개수
-      const shopListSize = shopLocations.length;
-      const shopListSizeText = document.querySelector('#result-counter-text');
-      shopListSizeText.innerText = "검색결과 " + shopListSize + "곳";
-
       shopLocations.map(shop => {
 
         // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
+        let marker = new kakao.maps.Marker({
           map: map, // 마커를 표시할 지도
           position: shop.latlng// 마커의 위치
         });
 
+        // 마커의 데이터 정보를 담습니다.
+        markerList.push(marker);
+
         // 마커에 표시할 인포윈도우를 생성합니다 
-        var infowindow = new kakao.maps.InfoWindow({
+
+        let infowindow = new kakao.maps.InfoWindow({
           content: shop.content // 인포윈도우에 표시할 내용
         });
 
         // 샵 데이터 가져오기 
         const shopName = shop.name;
         const shopData = shopList.get(shopName);
-
-        // 마커와 샵 리스트 연결
+        const latlng = new kakao.maps.LatLng(shopData.y, shopData.x);
 
         // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
         // 이벤트 리스너로는 클로저를 만들어 등록합니다 
         (function (marker, infowindow) {
+
+
           // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
           kakao.maps.event.addListener(marker, 'mouseover', function () {
             infowindow.open(map, marker);
@@ -321,68 +425,9 @@
 
           // 마커에 click 이벤트를 등록하고 Modal 띄우기
           kakao.maps.event.addListener(marker, 'click', function () {
-
-            // Modal 열기
-            const shopModal = new bootstrap.Modal('#shopModal');
-            shopModal.show();
-
-            // 트위터 로딩 엘리먼트 선언
-            const twitterLoadingElement = document.getElementById("twitter-loading");
-            twitterLoadingElement.style.display = "block";
-
-            // 데이터를 넣을 element 객체 가져오기
-            const modalText = document.querySelector('#modal-text');
-            const modalLabel = document.querySelector('#shopModalLabel');
-            const addressText = document.querySelector('#address');
-            const contactText = document.querySelector('#contact');
-            const workTimeText = document.querySelector('#worktime');
-            const contentText = document.querySelector('#content');
-            const shopTypeText = document.querySelector('#shoptype');
-
-            // 데이터 변경
-            modalLabel.innerText = shopName;
-            addressText.innerText = shopData.address;
-            contactText.innerText = shopData.contact;
-            workTimeText.innerText = shopData.workTime;
-            contentText.innerText = shopData.content;
-
-            // 카카오 주소 링크 설정
-            const addressLink = 'https://map.kakao.com/?' + 'urlX=' + marker.n.La + '&urlY=' + marker.n.Ma + '&name=' + shopName;
-            addressText.setAttribute('href', addressLink);
-
-            // 데이터 변경 -> 샵 종류 데이터 처리
-            let shoptype = '';
-            shopData.shopType.map(type => {
-              shoptype += '#' + shopTypeMap.get(type) + ' ';
-            })
-            shopTypeText.innerText = shoptype;
-
-            // Twitter 타임라인 만들기
-            const twitterId = shopData.twitter.slice(20);
-            twttr.widgets.createTimeline(
-              {
-                sourceType: "profile",
-                screenName: twitterId,
-              },
-              document.getElementById("twitter"),
-              {
-                height: 500,
-                tweetLimit: 5
-              }
-            ).then(
-              function () {
-                twitterLoadingElement.style.display = "none";
-              }
-            );
-
-            // Modal이 닫혔을 경우에 대한 처리
-            const shopModalElement = document.getElementById('shopModal')
-            shopModalElement.addEventListener('hide.bs.modal', () => {
-              const twitterElement = document.querySelector('#twitter');
-              twitterElement.innerHTML = "";
-            });
+            panTo(shopData.y, shopData.x);
+            shopDataLoad(shopData, latlng);
           });
-
         })(marker, infowindow);
       });
     }
@@ -390,9 +435,35 @@
 
   <!-- Server Request -->
   <script>
-    const ip = 'http://127.0.0.1:8000/v1/shop/';
-    const shopList = new Map();
-    const shopLocations = [];
+    const url = 'http://127.0.0.1:8000/v1/shop/';
+    let shopList = new Map();
+    let shopLocations = [];
+    let queryParam = '';
+
+    // 검색 새로 요청
+    function request() {
+      const searchForm = document.getElementById('search');
+      const shopList = document.getElementById('shop-list');
+      const resultCountText = document.getElementById('result-counter-text');
+
+      // 샵 리스트에 있던 결과 제거
+      shopList.innerHTML = "";
+      removeMarker();
+
+      const keyword = searchForm['keyword'].value;
+      if (keyword === undefined) {
+        queryParam = '';
+      } else {
+        queryParam = keyword;
+      }
+
+      Promise.all([
+        fetch(url + '?' + 'name=' + queryParam)
+          .then(handleResponse)
+          .then(handleData)
+          .catch(handleError)],
+      ).then(kakaoMapMarkerSetting)
+    }
 
     // 요청 핸들링
     function handleResponse(response) {
@@ -404,23 +475,43 @@
 
     // 성공 핸들링
     function handleData(data) {
+      // 이미 데이터가 담겨 있는 경우 초기화
+      if (shopLocations.length > 0) {
+        shopList = new Map();
+        shopLocations = [];
+      }
+
+      // Shop검색결과 개수
+      const shopListSize = data.length;
+      const shopListSizeText = document.querySelector('#result-counter-text');
+      shopListSizeText.innerText = "검색결과 " + shopListSize + "곳";
+      
+      // 리스트에 매장명 버튼들 추가
       data.map(data => {
         const shopName = data.name;
         const shopId = data.id;
+        const latlng = new kakao.maps.LatLng(data.y, data.x);
 
-        const li = document.createElement("li");
-        li.setAttribute('id', shopId);
-        li.setAttribute('class', 'list-group-item list-group-item-action');
+        const ulButton = document.createElement("button");
+        ulButton.setAttribute('id', 'shop-' + shopId);
+        ulButton.setAttribute('type', 'button');
+        ulButton.setAttribute('class', 'list-group-item list-group-item-action');
 
-        const textNode = document.createTextNode(shopName);
-        li.appendChild(textNode)
+        const shopNameTextNode = document.createTextNode(shopName);
+        ulButton.appendChild(shopNameTextNode);
 
-        document.getElementById('shop-list').appendChild(li);
+        // 아이템을 클릭했을 때
+        ulButton.onclick = function () {
+          panTo(data.y, data.x);
+          shopDataLoad(data, latlng);
+        };
+
+        document.getElementById('shop-list').appendChild(ulButton);
         shopList.set(data.name, data)
         shopLocations.push(
           {
             name: shopName,
-            content: '<div class="info-window" style="width: 18rem; background: white">' +
+            content: '<div class="info-window" style="width: 18rem; background: white;">' +
               '<div class="card-body">' +
               '<h5 class="card-title fs-4">' +
               shopName +
@@ -432,7 +523,7 @@
               '아래의 마커를 클릭하여 상세정보 열기' +
               '</div>' +
               '</div>',
-            latlng: new kakao.maps.LatLng(data.y, data.x)
+            latlng: latlng
           }
         )
       });
@@ -444,14 +535,9 @@
     }
   </script>
 
-  <!--RUN Function-->
+  <!--Initial MapData-->
   <script>
-    Promise.all([
-      fetch(ip)
-        .then(handleResponse)
-        .then(handleData)
-        .catch(handleError)],
-    ).then(kakaoMapMarkerSetting)
+    request();
   </script>
 </body>
 
