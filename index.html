@@ -32,21 +32,35 @@
       overflow-y: auto;
     }
 
-    @media (max-width: 576px) {
+    #scroll-top-button {
+      display: none;
+    }
+
+    @media (max-width: 775px) {
       #nav-title {
         font-family: 'neodgm';
-        font-size: 4em;
+        font-size: 3em;
       }
 
       #shop-list {
         max-height: 10em;
       }
 
+
       #map {
         margin-top: 3%;
         width: auto;
         height: 25em;
       }
+
+      footer {
+        display: None;
+      }
+
+      #scroll-top-button {
+        display: block;
+      }
+
     }
 
     .info-window {
@@ -89,8 +103,8 @@
         <a href="#" class="nav-link px-2">About</a>
       </li>
     </ul>
-    <h1 class=" col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">Subculture Map</h1>
-    <div class="col-md-1 text-end">
+    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">Subculture Map</h1>
+    <div class="col-md-auto text-end">
       <button type="button" class="btn btn-link" style="text-decoration: none" href="loginUrl" data-bs-toggle="modal"
         data-bs-target="#loginModal">로그인</button>
     </div>
@@ -99,7 +113,7 @@
   <!-- MapSide -->
   <div id="data-side" class="container-fluid">
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-md-3">
         <!-- ShopListSide -->
         <ul id="shop-header" class="list-group" data-bs-theme="light">
           <li class="list-group-item active" aria-current="true">
@@ -119,13 +133,20 @@
               </div>
             </form>
           </li>
-          <ul id="shop-list" class="list-group list-group-flush"></ul>
+          <ul id="shop-list" class="list-group list-group-flush">
+            <div class="d-flex justify-content-center">
+              <div class="spinner-border m-5 text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div>검색결과 없음</div>
+          </ul>
           <li id="result-counter-text" class="list-group-item fw-bold text-center">
             검색결과 0곳
           </li>
         </ul>
       </div>
-      <div class="col-sm">
+      <div class="col-md">
         <div id="map" class="rounded"></div>
       </div>
     </div>
@@ -140,7 +161,10 @@
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">정보</a></li>
       </ul>
-      <p class="text-center text-muted">Twitter @tak_0_dachi</p>
+      <p class="text-center text-muted">
+        Developed by
+        <a href="https://twitter.com/tak_0_dachi">@tak_0_dachi</a>
+      </p>
     </footer>
   </div>
 
@@ -175,7 +199,7 @@
   </div>
 
   <!-- Apply Modal -->
-  <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applymodalLabel" aria-hidden="true">
+  <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -200,6 +224,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button class="btn btn-primary" data-bs-target="#loginModal" data-bs-toggle="modal">이전으로</button>
         </div>
       </div>
     </div>
@@ -207,7 +232,7 @@
 
   <!-- Shop Info Modal -->
   <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
           <div style="flex-direction:column;">
@@ -217,23 +242,29 @@
             <a id="address" class="fw-bold" style="text-decoration: none;" target='_blank'>가게주소</a>
           </div>
         </div>
-        <div class="modal-body container">
+        <div class="modal-body">
           <div class="row">
             <div class="col-sm-8">
-              <h3 class="fs-5">영업시간</h3>
+              <h3 class="fs-5 fw-bold" id="worktime-header">영업시간</h3>
               <p id="worktime">(영업시간)</p>
               <hr>
-              <h3 class="fs-5">정보</h3>
+              <h3 class="fs-5 fw-bold">정보</h3>
+              <label>홈페이지:</label>
               <a id="homepage" target="_blank">(홈페이지)</a>
-              <p id="contact">(연락처)</p>
+              <br>
+              <label>전화번호:</label>
+              <a id="phone">(전화번호)</a>
+              <br>
+              <label>이메일:</label>
+              <a id="email">(이메일 없음)</a>
               <hr>
-              <h3 class="fs-5">내용</h3>
+              <h3 class="fs-5 fw-bold">내용</h3>
               <p id="content">(가게정보)</p>
               <p id="shoptype">(가게종류)</p>
             </div>
             <div class="col-sm-4" id="twitter-area">
               <div class="d-flex justify-content-center">
-                <div class="spinner-border text-primary" id="twitter-loading" role="status">
+                <div class="spinner-border m-5 text-primary" id="twitter-loading" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
@@ -243,14 +274,34 @@
           </div>
         </div>
         <div class="modal-footer">
+          <a type="button" id="scroll-top-button" class="btn btn-success" href="#worktime-header">맨 위로</a>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- 브라우징에 도움되는 함수 모음 -->
+  <script>
+    function scrollToTop() {
+      const shopModal = document.getElementById("shopModal");
+      shopModal.scrollTop(0);
+    }
+  </script>
+
   <!-- 데이터 처리를 위한 세팅 -->
   <script>
+
+    // 매장 종류 별 데이터 Map 세팅
+    const shopTypeMap = new Map();
+
+    // 매장 위치 별 데이터 세팅
+    const shopLocationTypeMap = new Map();
+
+    // value로 key값을 찾는 함수
+    function getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
+    }
 
     // SHOP 데이터 로드 함수
     function shopDataLoad(shopdata, latlng) {
@@ -270,8 +321,9 @@
       const modalText = document.querySelector('#modal-text');
       const modalLabel = document.querySelector('#shopModalLabel');
       const addressText = document.querySelector('#address');
-      const contactText = document.querySelector('#contact');
       const homePageText = document.querySelector('#homepage');
+      const phoneText = document.querySelector('#phone');
+      const emailText = document.querySelector('#email');
       const workTimeText = document.querySelector('#worktime');
       const contentText = document.querySelector('#content');
       const shopTypeText = document.querySelector('#shoptype');
@@ -280,20 +332,38 @@
       modalLabel.innerText = shopData.name;
       addressText.innerText = shopData.address;
       homePageText.innerText = shopData.homePage;
-      contactText.innerText = shopData.contact;
+      phoneText.innerText = shopData.phone;
+      emailText.innerText = shopData.email;
       workTimeText.innerText = shopData.workTime;
       contentText.innerText = shopData.content;
-
-      // 홈페이지 데이터 모달에 추가
-      if (shopData.homePage === null) {
-        homePageText.setAttribute('style', 'display: block;');
-      } else {
-        homePageText.setAttribute('href', shopData.homePage);
-      }
 
       // 카카오 주소 링크 설정
       const addressLink = 'https://map.kakao.com/link/map/' + shopData.name + ',' + latlng.Ma + ',' + latlng.La;
       addressText.setAttribute('href', addressLink);
+
+      // 홈페이지 데이터, 모달에 추가
+      if (shopData.homePage !== null) {
+        homePageText.setAttribute('href', shopData.homePage);
+      } else {
+        homePageText.removeAttribute('href');
+        homePageText.innerText = '없음'
+      }
+
+      // 전화번호, 모달에 추가
+      if (shopData.phone !== null) {
+        phoneText.setAttribute('href', 'tel:' + shopData.phone);
+      } else {
+        phoneText.removeAttribute('href');
+        phoneText.innerText = '없음'
+      }
+
+      // 이메일, 모달에 추가
+      if (shopData.email !== null) {
+        emailText.setAttribute('href', 'mailto:' + shopData.email);
+      } else {
+        email.removeAttribute('href');
+        emailText.innerText = '없음'
+      }
 
       // 데이터 변경 -> 샵 종류 데이터 처리
       let shoptype = '';
@@ -311,8 +381,8 @@
         },
         document.getElementById("twitter"),
         {
-          height: 500,
-          tweetLimit: 5
+          height: screen.height / 1.4,
+          tweetLimit: 10,
         }
       ).then(
         function () {
@@ -327,17 +397,6 @@
         twitterElement.innerHTML = "";
       });
     }
-
-    // 매장 종류 별 데이터 설정
-    const shopTypeMap = new Map([
-      [1, '카페'],
-      [2, '서점'],
-      [3, '오락실'],
-      [4, '굿즈샵'],
-      [5, '식당'],
-      [6, '게임샵']
-    ]);
-
   </script>
 
   <!-- kakao Map Setting -->
@@ -366,6 +425,12 @@
         markerList[i].setMap(null);
       }
       markerList = [];
+    }
+
+    // 맵 위치 초기화 하는 함수
+    function resetZoom() {
+      map.setCenter(new kakao.maps.LatLng(35.7, 128));
+      map.setLevel(13);
     }
 
     // 해당하는 위치로 지도 이동하는 함수
@@ -448,20 +513,32 @@
 
       // 샵 리스트에 있던 결과 제거
       shopList.innerHTML = "";
+      resetZoom();
       removeMarker();
 
+      // 지역명으로 검색한 경우에 대한 처리(예시: 서울을 입력)
       const keyword = searchForm['keyword'].value;
-      if (keyword === undefined) {
-        queryParam = '';
-      } else {
-        queryParam = keyword;
+      let locationId = null;
+      for (entry of shopLocationTypeMap) {
+        if (keyword == entry[1]) {
+          locationId = entry[0];
+        }
       }
 
+      if (keyword === undefined) { // 아무것도 키워드가 없는 경우
+        queryParam = '';
+      } else if (Boolean(locationId) === true) { // 지역명 키워드를 파라미터로 받은 경우
+        queryParam = 'location=' + locationId;
+      } else { // 그외 처리
+        queryParam = 'name=' + keyword;
+      }
+
+      // 백엔드 서버로 맵 데이터 요청
       Promise.all([
-        fetch(url + '?' + 'name=' + queryParam)
+        fetch(url + '?' + queryParam)
           .then(handleResponse)
-          .then(handleData)
-          .catch(handleError)],
+          .catch(handleError)
+          .then(handleData)],
       ).then(kakaoMapMarkerSetting)
     }
 
@@ -481,52 +558,77 @@
         shopLocations = [];
       }
 
+      // 매장 데이터 분리
+      const resShopDatas = data.shop_list;
+
+      // shopType 데이터 분리
+      data.shoptype_list.map(data => {
+        shopTypeMap.set(data.id, data.type);
+      });
+
+      // shopLocationType 데이터 분리
+      data.location_list.map(data => {
+        shopLocationTypeMap.set(data.id, data.location);
+      });
+
       // Shop검색결과 개수
-      const shopListSize = data.length;
+      const shopListSize = resShopDatas.length;
       const shopListSizeText = document.querySelector('#result-counter-text');
       shopListSizeText.innerText = "검색결과 " + shopListSize + "곳";
-      
-      // 리스트에 매장명 버튼들 추가
-      data.map(data => {
-        const shopName = data.name;
-        const shopId = data.id;
-        const latlng = new kakao.maps.LatLng(data.y, data.x);
 
-        const ulButton = document.createElement("button");
-        ulButton.setAttribute('id', 'shop-' + shopId);
-        ulButton.setAttribute('type', 'button');
-        ulButton.setAttribute('class', 'list-group-item list-group-item-action');
+      // 검색결과가 없는 경우에 대한 처리
+      if (shopListSize === 0) {
+        const liNoResult = document.createElement("li");
+        liNoResult.setAttribute('class', 'text-center')
+        const liNoResultTextNode = document.createTextNode("검색결과 없음");
+        liNoResult.appendChild(liNoResultTextNode);
+        document.getElementById('shop-list').appendChild(liNoResult);
 
-        const shopNameTextNode = document.createTextNode(shopName);
-        ulButton.appendChild(shopNameTextNode);
+        // 검색결과가 있는 경우
+      } else {
+        // 리스트에 매장명 버튼들 추가
+        resShopDatas.map(data => {
+          const shopName = data.name;
+          const shopId = data.id;
+          const latlng = new kakao.maps.LatLng(data.y, data.x);
 
-        // 아이템을 클릭했을 때
-        ulButton.onclick = function () {
-          panTo(data.y, data.x);
-          shopDataLoad(data, latlng);
-        };
+          const ulButton = document.createElement("button");
+          ulButton.setAttribute('id', 'shop-' + shopId);
+          ulButton.setAttribute('type', 'button');
+          ulButton.setAttribute('class', 'list-group-item list-group-item-action');
 
-        document.getElementById('shop-list').appendChild(ulButton);
-        shopList.set(data.name, data)
-        shopLocations.push(
-          {
-            name: shopName,
-            content: '<div class="info-window" style="width: 18rem; background: white;">' +
-              '<div class="card-body">' +
-              '<h5 class="card-title fs-4">' +
-              shopName +
-              '</h5>' +
-              '<p class="card-text text-primary">' +
-              data.address +
-              '</p>' +
-              '<div class="card-footer">' +
-              '아래의 마커를 클릭하여 상세정보 열기' +
-              '</div>' +
-              '</div>',
-            latlng: latlng
-          }
-        )
-      });
+          const shopNameTextNode = document.createTextNode(shopName);
+          ulButton.appendChild(shopNameTextNode);
+
+          // 매장명을 클릭했을 때 맵 이동 및 샵 데이터 가져오기
+          ulButton.onclick = function () {
+            panTo(data.y, data.x);
+            shopDataLoad(data, latlng);
+          };
+
+          document.getElementById('shop-list').appendChild(ulButton);
+
+          shopList.set(data.name, data)
+          shopLocations.push(
+            {
+              name: shopName,
+              content: '<div class="info-window" style="width: 18rem; background: white;">' +
+                '<div class="card-body">' +
+                '<h5 class="card-title fs-4">' +
+                shopName +
+                '</h5>' +
+                '<p class="card-text text-primary">' +
+                data.address +
+                '</p>' +
+                '<div class="card-footer">' +
+                '아래의 마커를 클릭하여 상세정보 열기' +
+                '</div>' +
+                '</div>',
+              latlng: latlng
+            }
+          )
+        });
+      }
     }
 
     // 에러 핸들링
