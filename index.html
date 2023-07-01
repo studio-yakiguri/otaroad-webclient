@@ -103,7 +103,7 @@
         <a href="#" class="nav-link px-2">About</a>
       </li>
     </ul>
-    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">Subculture Map</h1>
+    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">OTAROAD</h1>
     <div class="col-md-auto text-end">
       <button type="button" class="btn btn-link" style="text-decoration: none" href="loginUrl" data-bs-toggle="modal"
         data-bs-target="#loginModal">로그인</button>
@@ -516,24 +516,20 @@
       resetZoom();
       removeMarker();
 
-      // 지역명으로 검색한 경우에 대한 처리(예시: 서울을 입력)
       const keyword = searchForm['keyword'].value;
-      let locationId = null;
-      for (entry of shopLocationTypeMap) {
-        if (keyword == entry[1]) {
-          locationId = entry[0];
-        }
-      }
+      
 
-      if (keyword === undefined) { // 아무것도 키워드가 없는 경우
+
+      if (keyword === undefined) {
         queryParam = '';
-      } else if (Boolean(locationId) === true) { // 지역명 키워드를 파라미터로 받은 경우
-        queryParam = 'location=' + locationId;
-      } else { // 그외 처리
+      } else if (Boolean(shopLocationTypeMap.get(keyword)) === true) {
+        queryParam = 'location' + shopLocationTypeMap.get(keyword)
+      } else {
         queryParam = 'name=' + keyword;
       }
 
-      // 백엔드 서버로 맵 데이터 요청
+      console.log(queryParam)
+
       Promise.all([
         fetch(url + '?' + queryParam)
           .then(handleResponse)
@@ -576,7 +572,7 @@
       const shopListSizeText = document.querySelector('#result-counter-text');
       shopListSizeText.innerText = "검색결과 " + shopListSize + "곳";
 
-      // 검색결과가 없는 경우에 대한 처리
+      // 검색결과가 없는 경우
       if (shopListSize === 0) {
         const liNoResult = document.createElement("li");
         liNoResult.setAttribute('class', 'text-center')
