@@ -606,7 +606,6 @@
           // 매장명에 마우스 올렸을 때 매장 위치로 이동하기
           ulButton.onmouseover = function () {
             panTo(data.y, data.x);
-            shopDataLoad(data, latlng);
           };
 
           document.getElementById('shop-list').appendChild(ulButton);
