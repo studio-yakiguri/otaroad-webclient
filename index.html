@@ -97,13 +97,13 @@
         <a href="https://discord.gg/BpXGUx89Nj" class="nav-link px-2" target="_blank">디스코드 채널</a>
       </li>
       <li>
-        <a href="#" class="nav-link px-5">행사</a>
+        <a href="workingUrl" class="nav-link px-5"  data-bs-toggle="modal" data-bs-target="#workingModal">행사</a>
       </li>
       <li>
         <a href="#" class="nav-link px-2">About</a>
       </li>
     </ul>
-    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">OTAROAD</h1>
+    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">OTAROAD - beta</h1>
     <div class="col-md-auto text-end" style="display:none;">
       <button type="button" class="btn btn-link" style="text-decoration: none" href="loginUrl" data-bs-toggle="modal"
         data-bs-target="#loginModal">로그인</button>
@@ -276,6 +276,33 @@
         </div>
         <div class="modal-footer">
           <a type="button" id="scroll-top-button" class="btn btn-success" href="#worktime-header">맨 위로</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work IN Progress Modal -->
+  <div class="modal fade" id="workingModal" tabindex="-1" aria-labelledby="workingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-2" id="applyModalLabel">공사중!!!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col align-self-center" style="text-align: center;">
+              <img src="/assets/image/sorry.png" style="width:30rem; height:30rem">
+            </div>
+          <div class="row">
+            <div class="col align-self-center" style="text-align: center; font-size: 2rem">
+              죄송해요.. 열심히 만들고 있어요... ㅠㅠ
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
         </div>
       </div>
