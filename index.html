@@ -4,6 +4,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 부트스트랩 css-->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <!-- bootstrap js -->
+  <!--<script type="text/javascript" src="js/popper.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script> -->
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+  <!-- 카카오맵 js -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54742a4e677242078bb4fcb2fba0fbaf"></script>
+  <!--Twitter Widget-->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <style>
     @font-face {
       font-family: 'neodgm';
@@ -19,7 +29,7 @@
 
     #map {
       width: auto;
-      height: 60em;
+      height: 47.1em;
     }
 
     #shop-header {
@@ -28,7 +38,7 @@
 
     #shop-list {
       background-color: white;
-      height: 56.4em;
+      height: 43.4em;
       overflow-y: auto;
     }
 
@@ -36,20 +46,28 @@
       display: none;
     }
 
-    @media (max-width: 775px) {
+    #search-bar {
+      width: 20em;
+    }
+
+    @media (max-width: 800px) {
       #nav-title {
         display: none;
       }
 
       #shop-list {
-        max-height: 10em;
+        max-height: 15em;
       }
 
 
       #map {
         margin-top: 3%;
         width: auto;
-        height: 25em;
+        height: 26em;
+      }
+
+      #search-bar {
+        width: 100%;
       }
 
       footer {
@@ -78,15 +96,6 @@
 </head>
 
 <body>
-  <!-- 부트스트랩 css-->
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <!-- bootstrap js -->
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- 카카오맵 js -->
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54742a4e677242078bb4fcb2fba0fbaf"></script>
-  <!--Twitter Widget-->
-  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   <!-- navibar -->
   <nav class="navbar navbar-expand-lg bg-dark border-body">
@@ -105,9 +114,9 @@
             <a href="workingUrl" class="nav-link"  data-bs-toggle="modal" data-bs-target="#workingModal">행사</a>
           </li>
         </ul>
-        <form class="d-flex" id="search" role="search" onsubmit="return false;">
-          <input class="form-control me-3" type="search" placeholder="매장명 검색(없으면 전체)" aria-label="Search" name="keyword">
-          <button class="btn btn-primary" type="submit" onclick="request()">Search</button>
+        <form class="d-flex" id="search-bar" role="search" onsubmit="return false;">
+          <input class="form-control me-6" type="search" data-bs-theme="light" placeholder="매장명 검색(없으면 전체)" aria-label="Search" name="keyword">
+          <button class="btn btn-primary" type="submit" onclick="request()" style="display: none;">Search</button>
         </form>
       </div>
     </div>
@@ -562,7 +571,7 @@
 
     // 검색 새로 요청
     function request() {
-      const searchForm = document.getElementById('search');
+      const searchForm = document.getElementById('search-bar');
       const shopList = document.getElementById('shop-list');
       const resultCountText = document.getElementById('result-counter-text');
 
