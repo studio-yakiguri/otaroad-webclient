@@ -50,6 +50,7 @@
 
 @media (max-width: 800px) {
     body {
+        position: fixed;
         overflow: hidden;
         touch-action: none;
     }
