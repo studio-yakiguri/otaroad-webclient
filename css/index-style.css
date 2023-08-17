@@ -49,6 +49,11 @@
 }
 
 @media (max-width: 800px) {
+    body {
+        overflow: hidden;
+        touch-action: none;
+    }
+    
     #nav-title {
         display: none;
     }
@@ -69,7 +74,7 @@
         margin-top: 3%;
         margin-bottom: 5%;
         width: auto;
-        height: 80vh;
+        height: 100vh;
     }
 
     #search-form {
