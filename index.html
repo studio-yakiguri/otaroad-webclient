@@ -72,7 +72,7 @@
         data-bs-target="#loginModal">로그인</button>
     </div>
   </header>
-   -->
+  -->
 
   <!-- MapSide -->
   <div id="data-side" class="container-fluid">
@@ -401,7 +401,7 @@
         document.getElementById("twitter"),
         {
           height: screen.height / 2.2,
-          //showReplies: true,
+          showReplies: true,
           tweetLimit: 5
         }
       ).then(
@@ -520,7 +520,7 @@
 
   <!-- Server Request -->
   <script>
-    const url = 'https://sc0-nas.wahoo-in.ts.net/v1/shop/';
+    const url = 'https://otaroad-oracle-cloud.wahoo-in.ts.net/v1/shop/';
     let shopList = new Map();
     let shopLocations = [];
     let queryParam = '';
@@ -601,7 +601,7 @@
       // 검색결과가 없는 경우
       if (shopListSize === 0) {
         const liNoResult = document.createElement("li");
-        liNoResult.setAttribute('class', 'text-center')
+        liNoResult.setAttribute('class', 'text-center');
         const liNoResultTextNode = document.createTextNode("검색결과 없음");
         liNoResult.appendChild(liNoResultTextNode);
         document.getElementById('shop-list').appendChild(liNoResult);
