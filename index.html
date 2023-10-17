@@ -4,92 +4,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    @font-face {
-      font-family: 'neodgm';
-      src: url('../assets/fonts/neodgm.woff') format('woff');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    #nav-title {
-      font-family: 'neodgm';
-      font-size: 4em;
-    }
-
-    #map {
-      width: auto;
-      height: 45em;
-    }
-
-    #shop-header {
-      height: 100%;
-    }
-
-    #shop-list {
-      background-color: white;
-      height: 100%;
-      overflow-y: auto;
-    }
-
-    #scroll-top-button {
-      display: none;
-    }
-
-    @media (max-width: 775px) {
-      #nav-title {
-        font-family: 'neodgm';
-        font-size: 3em;
-      }
-
-      #shop-list {
-        max-height: 10em;
-      }
-
-
-      #map {
-        margin-top: 3%;
-        width: auto;
-        height: 25em;
-      }
-
-      footer {
-        display: None;
-      }
-
-      #scroll-top-button {
-        display: block;
-      }
-
-    }
-
-    .info-window {
-      color: black
-    }
-
-    #shopModalLabel {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    }
-
-    #loginModalLabel {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    }
-  </style>
-  <title>Subculture-Map</title>
-</head>
-
-<body>
+  <!-- OTAROAD index.html css-->
+  <link href="css/index-style.css" rel="stylesheet">
   <!-- 부트스트랩 css-->
   <link href="css/bootstrap.css" rel="stylesheet">
   <!-- bootstrap js -->
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
   <!-- 카카오맵 js -->
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54742a4e677242078bb4fcb2fba0fbaf"></script>
+  <!--Cupertino Panes js -->
+  <script type="text/javascript" src="js/cupertino-pane.min.js"></script>
   <!--Twitter Widget-->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+  <title>OTAROAD: Subculture-Map</title>
+</head>
+
+<body>
   <!-- navibar -->
+  <nav class="navbar navbar-expand-lg bg-dark border-body">
+    <div class="container-fluid">
+      <img src="/assets/image/dot.png" alt="Bootstrap" width="40" height="40" onClick="window.location.reload()">
+      <a class="navbar-brand" id="nav-title" onClick="window.location.reload()">OTAROAD beta</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
+        aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-menu">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="https://discord.gg/BpXGUx89Nj" class="nav-link" target="_blank">디스코드 채널</a>
+          </li>
+          <li class="nav-item">
+            <a href="workingUrl" class="nav-link" data-bs-toggle="modal" data-bs-target="#workingModal">행사</a>
+          </li>
+        </ul>
+      </div>
+      <form class="d-flex" id="search-form" role="search" onsubmit="return false;">
+        <div class="input-group" data-bs-theme="light">
+          <span class="input-group-text" id="search-icon">
+            <img src="/assets/icon/search.svg">
+          </span>
+          <input type="search" class="form-control me-6" id="search-input" placeholder="매장명 검색 (없으면 전체)"
+            aria-label="Search" name="keyword">
+        </div>
+        <button class="btn btn-primary" type="submit" onclick="request()" style="display: none;">Search</button>
+      </form>
+    </div>
+  </nav>
+  <!--
   <header
     class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between px-3 py-2 mb-4 text-center">
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
@@ -97,18 +60,19 @@
         <a href="https://discord.gg/BpXGUx89Nj" class="nav-link px-2" target="_blank">디스코드 채널</a>
       </li>
       <li>
-        <a href="#" class="nav-link px-5">행사</a>
+        <a href="workingUrl" class="nav-link px-5"  data-bs-toggle="modal" data-bs-target="#workingModal">행사</a>
       </li>
       <li>
         <a href="#" class="nav-link px-2">About</a>
       </li>
     </ul>
-    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">OTAROAD</h1>
-    <div class="col-md-auto text-end">
+    <h1 class="col-md-auto display-5 text-body-emphasis p-auto m-auto" id="nav-title">OTAROAD - beta</h1>
+    <div class="col-md-auto text-end" style="display:none;">
       <button type="button" class="btn btn-link" style="text-decoration: none" href="loginUrl" data-bs-toggle="modal"
         data-bs-target="#loginModal">로그인</button>
     </div>
   </header>
+  -->
 
   <!-- MapSide -->
   <div id="data-side" class="container-fluid">
@@ -116,22 +80,8 @@
       <div class="col-md-3">
         <!-- ShopListSide -->
         <ul id="shop-header" class="list-group" data-bs-theme="light">
-          <li class="list-group-item active" aria-current="true">
-            <form id="search" onsubmit="return false;">
-              <div class="form" data-bs-theme="light">
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" id="search-input" name="keyword"
-                    placeholder="매장명 검색 (없으면 전체)">
-                  <button class="btn btn-warning" id="search-button" onclick="request()">검색</button>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" disabled>
-                  <label class="form-check-label" for="defaultCheck1">
-                    현재위치 켜기
-                  </label>
-                </div>
-              </div>
-            </form>
+          <li id="result-counter-text" class="list-group-item active fw-bold text-center">
+            검색결과 0곳
           </li>
           <ul id="shop-list" class="list-group list-group-flush">
             <div class="d-flex justify-content-center">
@@ -141,8 +91,7 @@
             </div>
             <div>검색결과 없음</div>
           </ul>
-          <li id="result-counter-text" class="list-group-item fw-bold text-center">
-            검색결과 0곳
+          <li id="result-counter-text" class="list-group-item text-center">
           </li>
         </ul>
       </div>
@@ -152,15 +101,30 @@
     </div>
   </div>
 
+  <!-- ShopListSide for mobile -->
+  <div class="cupertino-pane">
+    <div id="data-side-mobile" class="container">
+      <!-- ShopListSide -->
+      <ul id="shop-header-mobile" class="list-group" data-bs-theme="light">
+        <li id="result-counter-text-mobile" class="list-group-item active fw-bold text-center">
+          검색결과 0곳
+        </li>
+        <ul id="shop-list-mobile" class="list-group list-group-flush" overflow-y>
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border m-5 text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div>검색결과 없음</div>
+        </ul>
+      </ul>
+    </div>
+  </div>
+
   <!-- Footer -->
   <div class="container-fluid">
-    <footer class="py-3 my-4">
-      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">메인페이지</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">기능</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">정보</a></li>
-      </ul>
+    <footer class="py-3">
+      <hr>
       <p class="text-center text-muted">
         Developed by
         <a href="https://twitter.com/tak_0_dachi">@tak_0_dachi</a>
@@ -232,7 +196,7 @@
 
   <!-- Shop Info Modal -->
   <div class="modal fade" id="shopModal" tabindex="-1" aria-labelledby="shopModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
           <div style="flex-direction:column;">
@@ -241,14 +205,15 @@
             </h1>
             <a id="address" class="fw-bold" style="text-decoration: none;" target='_blank'>가게주소</a>
           </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-sm-8">
-              <h3 class="fs-5 fw-bold" id="worktime-header">영업시간</h3>
+            <div class="col-sm-8" id="shop-data">
+              <h3 class="fs-4 fw-bold" id="worktime-header">영업시간</h3>
               <p id="worktime">(영업시간)</p>
               <hr>
-              <h3 class="fs-5 fw-bold">정보</h3>
+              <h3 class="fs-4 fw-bold">정보</h3>
               <label>홈페이지:</label>
               <a id="homepage" target="_blank">(홈페이지)</a>
               <br>
@@ -258,11 +223,14 @@
               <label>이메일:</label>
               <a id="email">(이메일 없음)</a>
               <hr>
-              <h3 class="fs-5 fw-bold">내용</h3>
+              <h3 class="fs-4 fw-bold">내용</h3>
               <p id="content">(가게정보)</p>
               <p id="shoptype">(가게종류)</p>
             </div>
             <div class="col-sm-4" id="twitter-area">
+              <hr id="twitter-hr">
+              <h3 class="fs-4 fw-bold" id="worktime-header">X Timeline</h3>
+              <p class="fs-6 lh-2 fst-italic text-secondary">반응이 많은 순으로 불러옵니다. 최신 포스트는 직접 확인해주세요!</p>
               <div class="d-flex justify-content-center">
                 <div class="spinner-border m-5 text-primary" id="twitter-loading" role="status">
                   <span class="visually-hidden">Loading...</span>
@@ -281,12 +249,63 @@
     </div>
   </div>
 
+  <!-- Work IN Progress Modal -->
+  <div class="modal fade" id="workingModal" tabindex="-1" aria-labelledby="workingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-2" id="applyModalLabel">공사중!!!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col align-self-center" style="text-align: center;">
+              <img src="/assets/image/sorry.png" style="width:30rem; height:30rem">
+            </div>
+            <div class="row">
+              <div class="col align-self-center" style="text-align: center; font-size: 2rem">
+                죄송해요.. 열심히 만들고 있어요... ㅠㅠ
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 브라우징에 도움되는 함수 모음 -->
   <script>
     function scrollToTop() {
       const shopModal = document.getElementById("shopModal");
       shopModal.scrollTop(0);
     }
+
+  </script>
+
+  <!-- 검색결과 Drawer -->
+  <script>
+    let myPane = new CupertinoPane(
+      '.cupertino-pane', // Pane container selector
+      {
+        parentElement: 'body', // Parent container
+        buttonDestroy: false,
+        simulateTouch: true,
+        breaks: {
+          middle: { enabled: true, height: 300, bounce: true },
+          bottom: { enabled: true, height: 100 },
+        },
+        events: {
+          onDrag: () => console.log('Drag event')
+        },
+      }
+    );
+
+    window.onload = function () {
+      myPane.present({animate: true});
+    };
   </script>
 
   <!-- 데이터 처리를 위한 세팅 -->
@@ -381,8 +400,8 @@
         },
         document.getElementById("twitter"),
         {
-          height: screen.height / 1.4,
-          tweetLimit: 10,
+          height: screen.height / 2.2,
+          // tweetLimit: 5
         }
       ).then(
         function () {
@@ -500,24 +519,26 @@
 
   <!-- Server Request -->
   <script>
-    const url = 'https://sc0-nas.wahoo-in.ts.net:8443/v1/shop/';
+    const url = 'https://otaroad-oracle-cloud.wahoo-in.ts.net/v1/shop/';
     let shopList = new Map();
     let shopLocations = [];
     let queryParam = '';
 
     // 검색 새로 요청
     function request() {
-      const searchForm = document.getElementById('search');
+      const searchForm = document.getElementById('search-form');
       const shopList = document.getElementById('shop-list');
+      const shopListMobile = document.getElementById('shop-list-mobile');
       const resultCountText = document.getElementById('result-counter-text');
+      const resultCountTextMobile = document.getElementById('result-counter-text-mobile');
 
       // 샵 리스트에 있던 결과 제거
       shopList.innerHTML = "";
+      shopListMobile.innerHTML = "";
       resetZoom();
       removeMarker();
 
       const keyword = searchForm['keyword'].value;
-      
 
 
       if (keyword === undefined) {
@@ -542,6 +563,7 @@
     function handleResponse(response) {
       if (!response.ok) {
         throw new Error('Network response was not ok');
+        alert("Network response was not ok")
       }
       return response.json();
     }
@@ -570,15 +592,19 @@
       // Shop검색결과 개수
       const shopListSize = resShopDatas.length;
       const shopListSizeText = document.querySelector('#result-counter-text');
+      const shopListSizeTextMobile = document.querySelector('#result-counter-text-mobile');
+
       shopListSizeText.innerText = "검색결과 " + shopListSize + "곳";
+      shopListSizeTextMobile.innerText = "검색결과 " + shopListSize + "곳";
 
       // 검색결과가 없는 경우
       if (shopListSize === 0) {
         const liNoResult = document.createElement("li");
-        liNoResult.setAttribute('class', 'text-center')
+        liNoResult.setAttribute('class', 'text-center');
         const liNoResultTextNode = document.createTextNode("검색결과 없음");
         liNoResult.appendChild(liNoResultTextNode);
         document.getElementById('shop-list').appendChild(liNoResult);
+        document.getElementById('shop-list-mobile').appendChild(liNoResult.cloneNode(true));
 
         // 검색결과가 있는 경우
       } else {
@@ -596,13 +622,31 @@
           const shopNameTextNode = document.createTextNode(shopName);
           ulButton.appendChild(shopNameTextNode);
 
+          const ulButtonMobile = ulButton.cloneNode(true);
+
           // 매장명을 클릭했을 때 맵 이동 및 샵 데이터 가져오기
           ulButton.onclick = function () {
             panTo(data.y, data.x);
             shopDataLoad(data, latlng);
           };
 
+          ulButtonMobile.onclick = function () {
+            myPane.moveToBreak('bottom');
+            panTo(data.y, data.x);
+            shopDataLoad(data, latlng);
+          };
+
+          // 매장명에 마우스 올렸을 때 매장 위치로 이동하기
+          ulButton.onmouseover = function () {
+            panTo(data.y, data.x);
+          };
+
+          ulButtonMobile.mouseover = function () {
+            panTo(data.y, data.x);
+          };
+
           document.getElementById('shop-list').appendChild(ulButton);
+          document.getElementById('shop-list-mobile').appendChild(ulButtonMobile);
 
           shopList.set(data.name, data)
           shopLocations.push(
