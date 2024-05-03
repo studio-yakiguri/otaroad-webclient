@@ -494,22 +494,29 @@
       shopTypeText.innerText = shoptype;
 
       // Twitter 타임라인 만들기
-      const twitterId = shopData.twitter.slice(20);
-      twttr.widgets.createTimeline(
-        {
-          sourceType: "profile",
-          screenName: twitterId,
-        },
-        document.getElementById("twitter"),
-        {
-          height: screen.height / 2.2,
-          // tweetLimit: 5
-        }
-      ).then(
-        function () {
-          twitterLoadingElement.style.display = "none";
-        }
-      );
+      const twitterArea = document.getElementById('twitter-area');
+      if (shopData.twitter !== null) {
+        const twitterId = shopData.twitter.slice(20);
+        twttr.widgets.createTimeline(
+          {
+            sourceType: "profile",
+            screenName: twitterId,
+          },
+          document.getElementById("twitter"),
+          {
+            height: screen.height / 2.2,
+            tweetLimit: 5
+          }
+        ).then(
+          function () {
+            twitterLoadingElement.style.display = "none";
+          }
+        );
+      } else {
+        twitterArea.style.display = "none";
+      }
+
+
 
       // Modal이 닫혔을 경우에 대한 처리
       const shopModalElement = document.getElementById('shopModal')
@@ -675,6 +682,8 @@
         shopList = new Map();
         shopLocations = [];
       }
+
+      console.log(data);
 
       // 매장 데이터 분리
       const resShopDatas = data.shop_list;
