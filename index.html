@@ -209,6 +209,108 @@
         </div>
         <div class="modal-body">
           <div class="row">
+            <!--
+            <div class="col">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                  <img src="/assets/icon/homepage.svg">
+                  홈페이지
+                </button>
+                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item">홈페이지 주소</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">URL 복사하기</a></li>
+                  <li><a class="dropdown-item" href="#">홈페이지 방문하기</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                  <img src="/assets/icon/blog.svg">
+                  블로그
+                </button>
+                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item">블로그 주소</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">URL 복사하기</a></li>
+                  <li><a class="dropdown-item" href="#">블로그 방문하기</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                  <i class="bi bi-shop">온라인샵</i>
+                </button>
+                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item">온라인샵 주소</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">URL 복사하기</a></li>
+                  <li><a class="dropdown-item" href="#">온라인샵 방문하기</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                  <img src="/assets/icon/instagram.svg">
+                  인스타그램
+                </button>
+                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item">인스타그램 주소</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">URL 복사하기</a></li>
+                  <li><a class="dropdown-item" href="#">인스타그램 방문하기</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary">
+                  <img src="/assets/icon/twitter-x.svg">
+                  X(트위터)
+                </button>
+                <button type="button" class="btn btn-primary  dropdown-toggle dropdown-toggle-split"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item">트위터 주소</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">URL 복사하기</a></li>
+                  <li><a class="dropdown-item" href="#">X(트위터) 방문하기</a></li>
+                </ul>
+              </div> 
+            </div> -->
+          </div>
+          <div class="row">
             <div class="col-sm-8" id="shop-data">
               <h3 class="fs-4 fw-bold" id="worktime-header">영업시간</h3>
               <p id="worktime">(영업시간)</p>
@@ -304,7 +406,7 @@
     );
 
     window.onload = function () {
-      myPane.present({animate: true});
+      myPane.present({ animate: true });
     };
   </script>
 
@@ -392,22 +494,29 @@
       shopTypeText.innerText = shoptype;
 
       // Twitter 타임라인 만들기
-      const twitterId = shopData.twitter.slice(20);
-      twttr.widgets.createTimeline(
-        {
-          sourceType: "profile",
-          screenName: twitterId,
-        },
-        document.getElementById("twitter"),
-        {
-          height: screen.height / 2.2,
-          // tweetLimit: 5
-        }
-      ).then(
-        function () {
-          twitterLoadingElement.style.display = "none";
-        }
-      );
+      const twitterArea = document.getElementById('twitter-area');
+      if (shopData.twitter !== null) {
+        const twitterId = shopData.twitter.slice(20);
+        twttr.widgets.createTimeline(
+          {
+            sourceType: "profile",
+            screenName: twitterId,
+          },
+          document.getElementById("twitter"),
+          {
+            height: screen.height / 2.2,
+            tweetLimit: 5
+          }
+        ).then(
+          function () {
+            twitterLoadingElement.style.display = "none";
+          }
+        );
+      } else {
+        twitterArea.style.display = "none";
+      }
+
+
 
       // Modal이 닫혔을 경우에 대한 처리
       const shopModalElement = document.getElementById('shopModal')
@@ -549,8 +658,6 @@
         queryParam = 'name=' + keyword;
       }
 
-      console.log(queryParam)
-
       Promise.all([
         fetch(url + '?' + queryParam)
           .then(handleResponse)
@@ -575,6 +682,8 @@
         shopList = new Map();
         shopLocations = [];
       }
+
+      console.log(data);
 
       // 매장 데이터 분리
       const resShopDatas = data.shop_list;
