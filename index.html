@@ -512,6 +512,7 @@
             twitterLoadingElement.style.display = "none";
           }
         );
+        twitterArea.style.display = "block";
       } else {
         twitterArea.style.display = "none";
       }
@@ -682,8 +683,6 @@
         shopList = new Map();
         shopLocations = [];
       }
-
-      console.log(data);
 
       // 매장 데이터 분리
       const resShopDatas = data.shop_list;
